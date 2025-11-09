@@ -1,0 +1,155 @@
+# -حاسبة محطات الوقود
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>حاسبة المخزون</title>
+<style>
+body {
+    font-family: "Tajawal", sans-serif;
+    background: #f4f4f4;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+}
+table {
+    border-collapse: collapse;
+    width: 420px; /* يخلي الجدول طولي */
+    background: #ffffff;
+    border-radius: 10px;
+    overflow: hidden;
+}
+th, td {
+    border: 1px solid #d9d9d9;
+    padding: 12px;
+    text-align: center;
+    font-size: 16px;
+}
+th {
+    background: #333;
+    color: #fff;
+}
+
+/* ألوان مرتبه وواضحة */
+.col-91 { background: #b3ddb3; }  /* أخضر */
+.col-95 { background: #e2a6a6; }  /* أحمر */
+.col-d  { background: #f2df8d; }  /* أصفر */
+
+input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 15px;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.result {
+    font-weight: bold;
+    background: #eeeeee;
+    border-radius: 6px;
+}
+</style>
+</head>
+<body>
+
+<table>
+    <tr>
+        <th>البيانات</th>
+        <th class="col-91">91</th>
+        <th class="col-95">95</th>
+        <th class="col-d">D</th>
+    </tr>
+
+    <tr>
+        <td>ادخل الاستهلاك اليومي</td>
+        <td><input type="number" oninput="calc()" id="in_91"></td>
+        <td><input type="number" oninput="calc()" id="in_95"></td>
+        <td><input type="number" oninput="calc()" id="in_d"></td>
+    </tr>
+
+    <tr>
+        <td>كمية الاستهلاك الأسبوعي (×7)</td>
+        <td class="result" id="d1_91"></td>
+        <td class="result" id="d1_95"></td>
+        <td class="result" id="d1_d"></td>
+    </tr>
+
+    <tr>
+        <td>الكمية المتوفرة في الخزان 1</td>
+        <td><input type="number" oninput="calc()" id="t1_91"></td>
+        <td><input type="number" oninput="calc()" id="t1_95"></td>
+        <td><input type="number" oninput="calc()" id="t1_d"></td>
+    </tr>
+
+    <tr>
+        <td>الكمية المتوفرة في الخزان 2</td>
+        <td><input type="number" oninput="calc()" id="t2_91"></td>
+        <td><input type="number" oninput="calc()" id="t2_95"></td>
+        <td><input type="number" oninput="calc()" id="t2_d"></td>
+    </tr>
+
+    <tr>
+        <td>الكمية المتوفرة في الخزان 3</td>
+        <td><input type="number" oninput="calc()" id="t3_91"></td>
+        <td><input type="number" oninput="calc()" id="t3_95"></td>
+        <td><input type="number" oninput="calc()" id="t3_d"></td>
+    </tr>
+
+    <tr>
+        <td>سعة الخزان 1</td>
+        <td><input type="number" oninput="calc()" id="c1_91"></td>
+        <td><input type="number" oninput="calc()" id="c1_95"></td>
+        <td><input type="number" oninput="calc()" id="c1_d"></td>
+    </tr>
+
+    <tr>
+        <td>سعة الخزان 2</td>
+        <td><input type="number" oninput="calc()" id="c2_91"></td>
+        <td><input type="number" oninput="calc()" id="c2_95"></td>
+        <td><input type="number" oninput="calc()" id="c2_d"></td>
+    </tr>
+
+    <tr>
+        <td>سعة الخزان 3</td>
+        <td><input type="number" oninput="calc()" id="c3_91"></td>
+        <td><input type="number" oninput="calc()" id="c3_95"></td>
+        <td><input type="number" oninput="calc()" id="c3_d"></td>
+    </tr>
+
+    <tr>
+        <td>نسبة المخزون المتوفرة</td>
+        <td class="result" id="r_91"></td>
+        <td class="result" id="r_95"></td>
+        <td class="result" id="r_d"></td>
+    </tr>
+</table>
+
+<script>
+function calc(){
+    const fuels = ["91","95","d"];
+
+    fuels.forEach(f => {
+
+        let daily = +document.getElementById(`in_${f}`).value || 0;
+        document.getElementById(`d1_${f}`).innerText = daily ? (daily * 7) : "";
+
+        let t1 = +document.getElementById(`t1_${f}`).value || 0;
+        let t2 = +document.getElementById(`t2_${f}`).value || 0;
+        let t3 = +document.getElementById(`t3_${f}`).value || 0;
+        let c1 = +document.getElementById(`c1_${f}`).value || 0;
+        let c2 = +document.getElementById(`c2_${f}`).value || 0;
+        let c3 = +document.getElementById(`c3_${f}`).value || 0;
+
+        let totalAmount = t1 + t2 + t3;
+        let totalCap = c1 + c2 + c3;
+
+        let percent = totalCap ? (totalAmount / totalCap).toFixed(2) : "";
+        document.getElementById(`r_${f}`).innerText = percent;
+    });
+}
+</script>
+
+</body>
+</html>
